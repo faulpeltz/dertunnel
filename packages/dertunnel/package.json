@@ -1,0 +1,18 @@
+{
+    "name": "@faulpeltz/dertunnel",
+    "version": "0.2.1",
+    "description": "A client for the dertunnel public endpoint forwarder",
+    "main": "./index.js",
+    "typings": "./client.d.ts",
+    "scripts": {
+    },
+    "keywords": [
+        "tunnel", "dertunnel"
+    ],
+    "author": "faulpeltz",
+    "license": "MIT",
+    "devDependencies": {
+    },
+    "dependencies": {
+    }
+}

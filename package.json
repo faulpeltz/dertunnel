@@ -1,0 +1,57 @@
+{
+    "name": "dertunnel",
+    "version": "0.2.1",
+    "description": "A ngrok-style tunnel client/server",
+    "main": "index.js",
+    "scripts": {
+        "server": "node -r esbuild-register src/server/index.ts",
+        "client": "node -r esbuild-register src/client/cli.ts",
+        "token": "node -r esbuild-register src/create-token.ts",
+        "test": "jest",
+        "compile": "tsc",
+        "lint": "eslint src/ --ext .ts",
+        "ci": "npm run compile && npm run lint && npm run test && npm run package",
+        "bundle": "npm run server:bundle && npm run client:bundle && npm run ui:bundle && npm run client:lib",
+        "server:bundle": "esbuild --bundle --minify --platform=node --outfile=./dist/dertunnel-server.js ./src/server/index.ts",
+        "client:bundle": "esbuild --bundle --minify --platform=node --outfile=./dist/dertunnel-client.js ./src/client/cli.ts",
+        "client:lib": "esbuild --bundle --minify --platform=node --outfile=./packages/dertunnel/index.js ./src/client/client.ts && cd packages/dertunnel && npm pack --pack-destination ../../build && cd ../..",
+        "client:package": "pkg -c ./pkg.client.json ./dist/dertunnel-client.js",
+        "server:package": "pkg -c ./pkg.server.json ./dist/dertunnel-server.js",
+        "package": "npm run bundle && npm run server:package && npm run client:package",
+        "ui:bundle": "esbuild --bundle --minify --sourcemap --outfile=./public/bundle.js ./src/ui/index.tsx",
+        "ui:watch": "esbuild --watch --bundle --sourcemap --outfile=./public/bundle.js ./src/ui/index.tsx"
+    },
+    "keywords": [
+        "tunnel"
+    ],
+    "author": "faulpeltz",
+    "license": "MIT",
+    "devDependencies": {
+        "@types/dns2": "^2.0.1",
+        "@types/express": "^4.17.13",
+        "@types/jest": "^28.1.6",
+        "@types/node": "^16.11.46",
+        "@types/prompts": "~2.0.14",
+        "@typescript-eslint/eslint-plugin": "^5.31.0",
+        "@typescript-eslint/parser": "^5.31.0",
+        "esbuild": "^0.14.51",
+        "esbuild-register": "^3.3.3",
+        "eslint": "^8.20.0",
+        "jest": "^28.1.3",
+        "pkg": "^5.8.0",
+        "ts-jest": "^28.0.7",
+        "typescript": "^4.7.4"
+    },
+    "dependencies": {
+        "acme-client": "^4.2.5",
+        "chalk": "^4.1.2",
+        "commander": "^9.4.0",
+        "conf": "^10.2.0",
+        "dns2": "^2.0.5",
+        "express": "^4.18.1",
+        "lru-cache": "^7.13.1",
+        "nanoid": "^3.3.4",
+        "prompts": "^2.4.2",
+        "rate-limiter-flexible": "^2.3.8"
+    }
+}

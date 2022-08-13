@@ -1,0 +1,9 @@
+dist/
+build/
+packages/**/*.js
+node_modules
+data/*
+public/bundle.js*
+server.json
+clients.json
+

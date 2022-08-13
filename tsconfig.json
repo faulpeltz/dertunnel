@@ -1,0 +1,22 @@
+{
+    "compilerOptions": {
+        "lib": ["es2022"],
+        "module": "commonjs",
+        "moduleResolution": "Node",
+        "target": "es2022",
+        "outDir": "./dist",
+        "rootDir": ".",
+        "esModuleInterop": true,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": false,
+        "strict": true,
+        "suppressImplicitAnyIndexErrors": true,
+        "forceConsistentCasingInFileNames": true,
+        "isolatedModules": true,
+        "skipLibCheck": true,
+        "noImplicitOverride": true,
+        "removeComments": true
+    },
+    "include": ["src/**/*.ts"],
+    "exclude": ["node_modules"]
+}

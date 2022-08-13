@@ -1,0 +1,68 @@
+html,
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+tr:nth-child(odd) {
+    background-color: #f0f0f0;
+}
+
+tr:nth-child(even) {
+    background-color: #f7f7f7;
+}
+
+td {
+    padding: 4px;
+}
+
+.title {
+    padding: 2px 0 0 8px;
+}
+
+.top-bar {
+    min-height: fit-content;
+    background-color: #eee;
+    padding: 12px;
+    display: flex;
+}
+
+.top-bar>h3 {
+    margin: 0;
+    padding-left: 8px;
+}
+
+.ver-label {
+    margin-left: auto;
+
+}
+
+.client-table td {
+    padding: 12px;
+}
+
+.arrow {
+    color: #5a2;
+}
+
+.alert {
+    width: fit-content;
+    padding: 12px;
+    background-color: #dfd;
+    display: flex;
+    flex-direction: row;
+}
+
+.alert span {
+    padding: 8px;
+}
+
+.alert a {
+    margin-left: 24px;
+}
+
+.panel {
+    border: 0;
+    margin: 40px 40px 40px 70px;
+}

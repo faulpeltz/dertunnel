@@ -1,0 +1,3 @@
+# TODO
+- better server logging
+- stress test / memory leak check
