@@ -51,6 +51,7 @@ type LocalTunnelSocket = Socket & {
     bytesSent: number;
     parserIn?: HttpParser;
     parserOut?: HttpParser;
+    wasConnected: boolean;
 };
 
 export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
@@ -193,10 +194,12 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
                     const localSocket = createConnection({
                         host: localServer,
                         port: localPort,
-                        allowHalfOpen: false
+                        allowHalfOpen: false,
                     }) as LocalTunnelSocket;
 
                     localSocket.channelId = msg.channelId;
+                    localSocket.wasConnected = false;
+
                     const cid = generateAlphaNum();
                     const parserCallback = (pd: ProtocolData) => {
                         try {
@@ -211,6 +214,7 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
                     localSockets.set(msg.channelId, localSocket);
 
                     localSocket.on("connect", () => {
+                        localSocket.wasConnected = true;
                         clientStats.currentConnections++;
                         clientStats.totalConnections++;
                         invokeEndpointCallback("connect");
@@ -218,7 +222,9 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
                     });
 
                     localSocket.on("close", () => {
-                        clientStats.currentConnections--;
+                        if (localSocket.wasConnected) {
+                            clientStats.currentConnections = Math.max(0, clientStats.currentConnections - 1);
+                        }
                         localSockets.delete(msg.channelId);
                         sendMessage<ClientCloseData>(tunnelSocket!, MessageType.CLIENT_CLOSE, 0,
                             { channelId: localSocket.channelId });
