@@ -42,8 +42,8 @@ export function renderUI() {
         const now = new Date(pd.startAt!).toISOString();
         const timeField = pd.endAt ? `${pd.endAt - pd.startAt!}ms` : "";
         const tsField = now.slice(0, 10) + " " + now.slice(11, 19);
-        const contentType = pd.headers.find(h => h.name === "content-type")?.value;
-        const typeField = contentType?.split(";")[0];
+        const contentType = pd.headers.find(h => h.name === "content-type")?.value ?? "(none)";
+        const typeField = contentType.split(";")[0];
         const pathField = pd.path.slice(0, Math.min(W - 45 - (contentType ? contentType.length : 2), pd.path.length));
         const contentInfoField = chalk.white(pd.content ? " " + formatNumber(pd.content.length) + "b " : "");
 

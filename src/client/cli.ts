@@ -115,6 +115,8 @@ type UserConfig = {
     logHeader(`Service: ${chalk.cyanBright(url)}`, 3);
     // header line 4
     logHeader(`User: ${chalk.cyanBright(user)}`, 4);
+    // header line 5
+    logHeader(`Local: ${chalk.cyanBright(localUrl ?? `${localServer} ${localPort}`)}`, 5);
 
     const inspect = !!opts["inspect"];
 
@@ -132,15 +134,18 @@ type UserConfig = {
         waitForInitialConnection: true,
         protocols: { inspect },
         onConnected: (ep: string) => {
-            // HEADER line 5
-            logHeader(`Connected - public endpoint: ${chalk.green(ep)}`, 5);
+            // HEADER line 6
+            logHeader(`Connected - public endpoint: ${chalk.green(ep)}`, 6);
         },
         onError: (err: string) => {
-            // HEADER line 5
-            logHeader(chalk.redBright(err), 5);
+            // HEADER line 6
+            logHeader(chalk.redBright(err), 6);
         },
         onEndpoint(event, s, message) {
             uiState.statusLines = formatStatusLines(s);
+            if (event === "error") {
+                log(chalk.redBright(message));
+            }
             renderUI();
         },
         onProtocolData(type, cid, data) {
