@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.2.5
+
+- Force disconnect clients after ping timeout
+- Allow client to replace their own endpoints
+
 ## 0.2.4
 
 - Fix server error message on failed login
