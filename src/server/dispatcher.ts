@@ -59,6 +59,7 @@ export class ConnectionDispatcher {
         };
 
         let pingTimer: NodeJS.Timer | undefined;
+        let pongTimeout: NodeJS.Timeout | undefined;
         socket.setKeepAlive(true, KeepAliveTime);
 
         socket.on("close", () => {
@@ -97,7 +98,7 @@ export class ConnectionDispatcher {
                     // check endpoint
                     let resolvedEndpoint: Endpoint;
                     if (hello.endpoint) {
-                        if (!this.isEndpointNameAvailable(hello.endpoint)) {
+                        if (!this.isEndpointNameAvailable(hello.endpoint, hello.user)) {
                             throw new Error("Endpoint with this name is already in use");
                         }
                         resolvedEndpoint = this.addEndpoint(hello.endpoint, cc);
@@ -123,7 +124,11 @@ export class ConnectionDispatcher {
                         catch (err) {
                             pingTimer && clearInterval(pingTimer);
                         }
-                    }, 30000).unref();
+                        pongTimeout = setTimeout(() => {
+                            log(`Client timed out: ${resolvedEndpoint.name}@${hello.user}`);
+                            socket.destroy();
+                        }, 7000).unref();
+                    }, 15000).unref();
                 }
                 catch (err) {
                     sendMessage<HelloRespData>(socket, MessageType.HELLO_RESP, 0, {
@@ -169,11 +174,12 @@ export class ConnectionDispatcher {
                     sock?.end(() => sock?.destroy());
                     ep.endpointClients.delete(msg.channelId);
                 }
-
             }
             else if (type === MessageType.END) {
                 cc.state = ClientState.ENDED;
                 socket.destroy();
+            } else if (type === MessageType.PONG) {
+                pongTimeout && clearTimeout(pongTimeout);
             }
         });
 
@@ -227,8 +233,9 @@ export class ConnectionDispatcher {
         return Array.from(this.endpoints.values());
     }
 
-    public isEndpointNameAvailable(name: string): boolean {
-        return !this.endpoints.has(name.toLowerCase());
+    public isEndpointNameAvailable(name: string, user: string): boolean {
+        const ep = this.endpoints.get(name.toLowerCase());
+        return !ep || ep.clientConnection.user === user;
     }
 
     public addEndpointPrefixed(epp: string, cc: ClientConnection): Endpoint {
@@ -255,6 +262,8 @@ export class ConnectionDispatcher {
             clientConnection: cc,
             endpointClients: new Map()
         };
+
+        this.endpoints.get(name)?.clientConnection.socket.destroy();
         this.endpoints.set(name, ep);
         return ep;
     }
