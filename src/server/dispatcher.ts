@@ -42,8 +42,8 @@ export class ConnectionDispatcher {
     private endpoints: Map<string, Endpoint> = new Map();
 
     private limiter = new RateLimiterMemory({
-        points: 10,
-        duration: 60
+        points: 30,
+        duration: 120
     });
 
     public constructor(private baseDomain: string, private authProvider: (user: string, token: string) => Promise<boolean>) {
@@ -58,9 +58,11 @@ export class ConnectionDispatcher {
             bytesSent: 0
         };
 
+        let pingTimer: NodeJS.Timer | undefined;
         socket.setKeepAlive(true, KeepAliveTime);
 
         socket.on("close", () => {
+            pingTimer && clearInterval(pingTimer);
             if (cc.user && cc.endpoint?.name) {
                 log(`Client disconnected: ${cc.endpoint?.name}@${cc.user}`);
             }
@@ -87,7 +89,7 @@ export class ConnectionDispatcher {
                     assertString(hello.token, "token");
                     assertEndpoint(hello.endpoint ?? hello.endpointPrefix, "endpoint");
                     if (!await this.authProvider(hello.user, hello.token)) {
-                        throw new Error("Invalid tunnel protocol version");
+                        throw new Error("Invalid username or token");
                     }
 
                     cc.user = hello.user;
@@ -115,12 +117,19 @@ export class ConnectionDispatcher {
                         endpoint: resolvedEndpoint.name + "." + this.baseDomain,
                         serverInfo: "DerTunnel"
                     });
+
+                    pingTimer = setInterval(() => {
+                        try { sendMessage(socket, MessageType.PING, 0); }
+                        catch (err) {
+                            pingTimer && clearInterval(pingTimer);
+                        }
+                    }, 30000).unref();
                 }
                 catch (err) {
                     sendMessage<HelloRespData>(socket, MessageType.HELLO_RESP, 0, {
                         success: false,
                         error: (err as Error)?.message ??
-                            (err as object)["remainingPoints"] ? "Too many connection attempts - Try again later" : "Error"
+                            ((err as object)["remainingPoints"] ? "Too many connection attempts - Try again later" : "Error")
                     });
                     socket.destroy(err as Error);
                 }

@@ -1,3 +1,6 @@
 # TODO
 - better server logging
 - stress test / memory leak check
+- show req content type if there is a request body
+- configurable default response if local client is unreachable (e.g. 204 or 404)
+- configurable default response if endpoint is undefined on server (e.g. 404)

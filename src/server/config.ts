@@ -51,21 +51,34 @@ export async function isServerConfigAvailable(configFile?: string): Promise<bool
 
 export async function loadConfig(configFile?: string): Promise<TunnelServiceConfig> {
     try {
-        const config = JSON.parse(await fs.readFile(configFile ?? DefaultServerConfigFileName, { encoding: "utf8" })) as TunnelServiceConfig;
-        config.baseDomain ??= process.env.DERTUNNEL_BASE_DOMAIN!;
-        config.port ??= process.env.DERTUNNEL_PORT ? Number.parseInt(process.env.DERTUNNEL_PORT) : 443;
-        config.enableLogging ??= process.env.DERTUNNEL_LOGGING_ENABLE !== undefined ? !!process.env.DERTUNNEL_LOGGING_ENABLE : false;
+        const resolvedFilename = configFile ?? DefaultServerConfigFileName;
+        let config = {} as TunnelServiceConfig;
 
-        config.enableDns ??= process.env.DERTUNNEL_DNS_ENABLE !== undefined ? !!process.env.DERTUNNEL_DNS_ENABLE : false;
-        config.dnsPort ??= process.env.DERTUNNEL_DNS_PORT ? Number.parseInt(process.env.DERTUNNEL_DNS_PORT) : 53;
-        config.dnsTargetHost ??= process.env.DERTUNNEL_DNS_TARGET_HOST!;
+        let unsaved = false;
+        try {
+            config = JSON.parse(await fs.readFile(resolvedFilename, { encoding: "utf8" })) as TunnelServiceConfig;
+        }
+        catch (err) {
+            unsaved = true;
+        }
 
-        config.enableAcme ??= process.env.DERTUNNEL_ACME_ENABLE !== undefined ? !!process.env.DERTUNNEL_ACME_ENABLE : false;
-        config.acmeCertDir ??= process.env.DERTUNNEL_ACME_CERT_DIR!;
-        config.acmeContactEmail ??= process.env.DERTUNNEL_ACME_EMAIL!;
+        const E = process.env;
 
-        if (!config.adminTokenHash && process.env.DERTUNNEL_ADMIN_SECRET_TOKEN) {
-            config.adminTokenHash = await hashToken(process.env.DERTUNNEL_ADMIN_SECRET_TOKEN);
+        config.baseDomain ??= E.DERTUNNEL_BASE_DOMAIN!;
+        config.port ??= E.DERTUNNEL_PORT ? Number.parseInt(E.DERTUNNEL_PORT) : 443;
+        config.enableLogging ??= E.DERTUNNEL_LOGGING_ENABLE !== undefined ? !!E.DERTUNNEL_LOGGING_ENABLE : false;
+
+        config.enableDns ??= E.DERTUNNEL_DNS_ENABLE !== undefined ? !!E.DERTUNNEL_DNS_ENABLE : false;
+        config.dnsPort ??= E.DERTUNNEL_DNS_PORT ? Number.parseInt(E.DERTUNNEL_DNS_PORT) : 53;
+        config.dnsTargetHost ??= E.DERTUNNEL_DNS_TARGET_HOST!;
+
+        config.enableAcme ??= E.DERTUNNEL_ACME_ENABLE !== undefined ? !!E.DERTUNNEL_ACME_ENABLE : false;
+        config.acmeCertDir ??= E.DERTUNNEL_ACME_CERT_DIR!;
+        config.acmeContactEmail ??= E.DERTUNNEL_ACME_EMAIL!;
+
+        if (!config.adminTokenHash && E.DERTUNNEL_ADMIN_SECRET_TOKEN) {
+            assertString(E.DERTUNNEL_ADMIN_SECRET_TOKEN, "adminToken", 8);
+            config.adminTokenHash = await hashToken(E.DERTUNNEL_ADMIN_SECRET_TOKEN);
         }
 
         assertHostname(config.baseDomain, "baseDomain");
@@ -83,6 +96,9 @@ export async function loadConfig(configFile?: string): Promise<TunnelServiceConf
         if (!config.enableAcme) { assertString(config.customCertFile, "customCertFile"); }
         if (!config.enableAcme) { assertString(config.customKeyFile, "customKeyFile"); }
 
+        if (unsaved) {
+            saveConfig(config, resolvedFilename);
+        }
         return config;
     }
     catch (err) {
