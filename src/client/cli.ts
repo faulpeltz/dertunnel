@@ -65,11 +65,10 @@ type UserConfig = {
     }
     userConf.set("configured", true);
 
-    let { service, user, token } = unpackToken(fullToken);
+    let { service, user } = unpackToken(fullToken);
     serviceUrl ||= service;
     user = userOvr || user;
 
-    const url = new URL(serviceUrl.includes("://") ? serviceUrl : `https://${serviceUrl}`);
     let [publicEpStr, localEpStr] = cmd.args;
 
     if (!publicEpStr) {
@@ -112,7 +111,7 @@ type UserConfig = {
     }
 
     // header line 3
-    logHeader(`Service: ${chalk.cyanBright(url)}`, 3);
+    logHeader(`Service: ${chalk.cyanBright(service)}`, 3);
     // header line 4
     logHeader(`User: ${chalk.cyanBright(user)}`, 4);
     // header line 5
@@ -121,10 +120,7 @@ type UserConfig = {
     const inspect = !!opts["inspect"];
 
     const shutdown = await connectTunnel({
-        serviceHost: url.hostname,
-        servicePort: Number.parseInt(url.port || "443"),
-        user,
-        token,
+        clientToken: fullToken,
         localServer,
         localPort: localPort,
         localUrl,

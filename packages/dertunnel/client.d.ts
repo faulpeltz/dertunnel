@@ -36,10 +36,9 @@ type ClientEndpointEvent =
     "error";
 
 export type ClientOptions = {
-    user: string;
-    token: string;
-    serviceHost: string;
+    serviceHost?: string;
     servicePort?: number;
+    clientToken: string;
     localServer?: string;
     localPort?: number;
     localUrl?: string;

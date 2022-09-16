@@ -5,7 +5,7 @@ import { ClientCloseData, EndMsgData, HelloReqData, HelloRespData, MessageType, 
 import { EndpointPrefix, KeepAliveTime } from "../shared/models";
 import { jsonData, MessageReceiver, sendMessage } from "../shared/msg-parser";
 import { generateAlphaNum } from "../shared/random";
-import { deferred, Throttled } from "../shared/util";
+import { deferred, Throttled, unpackToken } from "../shared/util";
 import { HttpParser, ProtocolDataType, type ProtocolData } from "./protocols";
 
 export type ClientEndpointStats = {
@@ -25,10 +25,9 @@ type ClientEndpointEvent =
     "error";
 
 export type ClientOptions = {
-    user: string;
-    token: string;
-    serviceHost: string;
+    serviceHost?: string;
     servicePort?: number;
+    clientToken: string;
     localServer?: string;
     localPort?: number;
     localUrl?: string;
@@ -71,9 +70,14 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
         throw new Error("Must either define 'endpoint' or 'endpointPrefix'");
     }
 
-    if (!opts.serviceHost || !opts.user || !opts.token || (!opts.localPort && !opts.localUrl)) {
+    if (!opts.clientToken || (!opts.localPort && !opts.localUrl)) {
         throw new Error("Missing required options");
     }
+
+    const unpacked = unpackToken(opts.clientToken);
+    opts.serviceHost ??= unpacked.service;
+    const user = unpacked.user;
+    const token = unpacked.token;
 
     let localServer: string, localPort: number;
     if (opts.localPort) {
@@ -91,7 +95,7 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
     const connected = deferred();
     let serviceHost = opts.serviceHost;
 
-    if (!serviceHost.startsWith(EndpointPrefix)) {
+    if (!serviceHost!.startsWith(EndpointPrefix)) {
         serviceHost = EndpointPrefix + serviceHost;
     }
 
@@ -127,8 +131,8 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
             tunnelSocket!.setKeepAlive(true, KeepAliveTime);
             sendMessage<HelloReqData>(tunnelSocket!, MessageType.HELLO_REQ, 0, {
                 version: TunnelVersion,
-                user: opts.user,
-                token: opts.token,
+                user,
+                token,
                 endpoint: opts.endpoint,
                 endpointPrefix: opts.endpointPrefix
             });
