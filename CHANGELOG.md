@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.3.0
+
+- Client connect options take the full client token instead of user/token (BREAKING)
+- Add client alive pings to server (BREAKING requires current server)
+  
 ## 0.2.5
 
 - Force disconnect clients after ping timeout
