@@ -178,8 +178,12 @@ export class ConnectionDispatcher {
             else if (type === MessageType.END) {
                 cc.state = ClientState.ENDED;
                 socket.destroy();
-            } else if (type === MessageType.PONG) {
+            } 
+            else if (type === MessageType.PONG) {
                 pongTimeout && clearTimeout(pongTimeout);
+            }
+            else if (type === MessageType.PING) {
+                sendMessage(socket, MessageType.PONG, 0);
             }
         });
 

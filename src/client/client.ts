@@ -137,6 +137,8 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
         tunnelSocket.setMaxListeners(0);
 
         const localSockets = new Map<number, LocalTunnelSocket>();
+        let pingTimer: NodeJS.Timer | undefined;
+        let pongTimeout: NodeJS.Timeout | undefined;
 
         // messages from server
         const receiver = new MessageReceiver(async (type, channel, data) => {
@@ -154,6 +156,24 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
                 connected.resolve();
                 authenticated = true;
                 reconnectTimer.reconnectTime = initialReconnectTime;
+
+                pingTimer = setInterval(() => {
+                    if (!tunnelSocket) {
+                        pingTimer && clearInterval(pingTimer);
+                        pongTimeout && clearTimeout(pongTimeout);
+                        return;
+                    }
+                    try {
+                        sendMessage(tunnelSocket, MessageType.PING, 0);
+                    }
+                    catch (err) {
+                        pingTimer && clearInterval(pingTimer);
+                    }
+                    pongTimeout = setTimeout(() => {
+                        void opts.onError?.("Server pong timeout");
+                        tunnelSocket?.destroy();
+                    }, 7000).unref();
+                }, 15000).unref();
             }
 
             if (type === MessageType.END) {
@@ -168,6 +188,9 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
             if (authenticated) {
                 if (type === MessageType.PING) {
                     sendMessage(tunnelSocket!, MessageType.PONG, 0);
+                }
+                else if (type === MessageType.PONG) {
+                    pongTimeout && clearTimeout(pongTimeout);
                 }
                 else if (type === MessageType.SERVER_DATA) {
                     const localSocket = localSockets.get(channel);
@@ -282,6 +305,8 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
         });
         tunnelSocket.on("close", () => {
             authenticated = false;
+            pingTimer && clearInterval(pingTimer);
+            pongTimeout && clearTimeout(pongTimeout);
             localSockets.forEach(s => s.destroy());
             if (closing) { return; }
             setTimeout(reconnect, reconnectTimer.reconnectTime);
