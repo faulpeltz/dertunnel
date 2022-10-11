@@ -6,4 +6,4 @@ data/*
 public/bundle.js*
 server.json
 clients.json
-
+debug.log

@@ -106,7 +106,7 @@ type UserConfig = {
         }
         localUrl = epUrl.toString();
     } else {
-        localServer = "localhost";
+        localServer = "127.0.0.1";
         localPort = p;
     }
 

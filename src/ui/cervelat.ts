@@ -54,7 +54,7 @@ export const CV = {
     }
 };
 
-export function render<S>(domRoot: HTMLElement, root: CompFunc<S, S>, initialState: S): StateFunc<S> {
+export function render<S extends {}>(domRoot: HTMLElement, root: CompFunc<S, S>, initialState: S): StateFunc<S> {
     _domRoot = domRoot;
     _rootComp = root;
     _state = initialState;

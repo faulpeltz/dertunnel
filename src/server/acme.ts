@@ -15,10 +15,10 @@ export type AcmeCert = { privateKey: string; cert: string; wasChanged: boolean }
 export async function acmeCreateCertificates(baseDomain: string, acmeContactEmail: string): Promise<AcmeCert> {
     const client = new acme.Client({
         directoryUrl: acme.directory.letsencrypt.production,
-        accountKey: await acme.forge.createPrivateKey()
+        accountKey: await acme.crypto.createPrivateKey()
     });
 
-    const [key, csr] = await acme.forge.createCsr({
+    const [key, csr] = await acme.crypto.createCsr({
         commonName: `*.${baseDomain}`,
         altNames: [`*.${baseDomain}`]
     });

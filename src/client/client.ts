@@ -81,7 +81,7 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
 
     let localServer: string, localPort: number;
     if (opts.localPort) {
-        localServer = opts.localServer ?? "localhost";
+        localServer = opts.localServer ?? "127.0.0.1";
         localPort = opts.localPort;
     } else {
         const url = new URL(opts.localUrl!);
