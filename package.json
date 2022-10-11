@@ -14,7 +14,7 @@
         "bundle": "npm run server:bundle && npm run client:bundle && npm run ui:bundle && npm run client:lib",
         "server:bundle": "esbuild --bundle --minify --platform=node --outfile=./dist/dertunnel-server.js ./src/server/index.ts",
         "client:bundle": "esbuild --bundle --minify --platform=node --outfile=./dist/dertunnel-client.js ./src/client/cli.ts",
-        "client:lib": "esbuild --bundle --minify --platform=node --outfile=./packages/dertunnel/index.js ./src/client/client.ts && cd packages/dertunnel && npm pack --pack-destination ../../build && cd ../..",
+        "client:lib": "esbuild --bundle --minify --platform=node --outfile=./packages/dertunnel/index.js ./src/client/client.ts && cd packages/dertunnel && npm pack --pack-destination ../../dist && cd ../..",
         "client:package": "pkg -c ./pkg.client.json ./dist/dertunnel-client.js",
         "server:package": "pkg -c ./pkg.server.json ./dist/dertunnel-server.js",
         "package": "npm run bundle && npm run server:package && npm run client:package",
