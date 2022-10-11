@@ -1,5 +1,11 @@
 # DerTunnel Changelog
 
+## 0.4.0
+
+- Upgrade packaged binaries to node 18
+- Drop Node < 16 support
+- Upgrade deps
+
 ## 0.3.0
 
 - Client connect options take the full client token instead of user/token (BREAKING)
