@@ -14,7 +14,7 @@ const ReservedEndpointNames = [TunnelClientEndpointName, AdminEndpointName, "app
 export type ServerCloseFunc = () => void;
 
 export async function startTunnelServer(config: TunnelServiceConfig, clientConfig: TunnelClientsConfig): Promise<Ref<ServerCloseFunc>> {
-    const log = config.enableLogging === false ? (..._: string[]) => { } : console.log;
+    const log = config.enableLogging === false ? () => { /* */ } : console.log;
 
     // main connection dispatcher
     const theDispatcher = new ConnectionDispatcher(config.baseDomain, (u, t) => authenticateUser(clientConfig, u, t));
@@ -74,7 +74,7 @@ export async function startTunnelServer(config: TunnelServiceConfig, clientConfi
 
     async function startOrRestartTlsServer() {
         if (config.enableAcme) {
-            const certs = await acmeLoadOrCreateCertificates(config.acmeCertDir, config.baseDomain, config.acmeContactEmail!);
+            const certs = await acmeLoadOrCreateCertificates(config.acmeCertDir, config.baseDomain, config.acmeContactEmail || "");
             if (certs.wasChanged || !theServer) {
                 if (theServer) {
                     log("Restarting TLS server because ACME certificates were updated");

@@ -1,5 +1,5 @@
-export const HostnameValidator = /^(([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9\-]*[a-z0-9])$/i;
-export const EndpointValidator = /^[a-z0-9][a-z0-9\-]*[a-z0-9]$/i;
+export const HostnameValidator = /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])$/i;
+export const EndpointValidator = /^[a-z0-9][a-z0-9-]*[a-z0-9]$/i;
 
 export const isPortNumber = function (v: unknown) { return typeof v === "number" && v > 0 && v < 0x10000 }
 
@@ -17,7 +17,7 @@ export function assertEndpoint(value: unknown, label: string): void {
 
 export function assertUserName(value: unknown): void {
     assertString(value, "username", 3);
-    if (!/^[a-z0-9_\-\.]{3,}$/i.test(value as string)) {
+    if (!/^[a-z0-9_\-.]{3,}$/i.test(value as string)) {
         throw new Error(`Value must be a valid user name`);
     }
 }

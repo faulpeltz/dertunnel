@@ -35,17 +35,17 @@ const EXPECT_HTTP_BODY_DATA = 5;
 
 export class HttpParser {
     private state = UNKNOWN_PROTO;
-    private id: string = "";
+    private id = "";
     private contentData: Buffer | undefined;
 
     private headers: HttpProtocolHeaders = [];
-    private expectedBodyLen: number = 0;
-    private isRequest: boolean = false;
-    private method: string = "";
-    private path: string = "";
-    private status: number = 0;
-    private statusText: string = "";
-    private startAt: number = 0;
+    private expectedBodyLen = 0;
+    private isRequest = false;
+    private method = "";
+    private path = "";
+    private status = 0;
+    private statusText = "";
+    private startAt = 0;
 
     public constructor(private onParsed: (pd: ProtocolData) => void) {
     }
@@ -57,7 +57,7 @@ export class HttpParser {
         while (i < d.length && i !== -1 && guard++ < MaxGuard) {
             if (this.state === UNKNOWN_PROTO || this.state === EXPECT_HTTP_RES_HEADER || this.state === EXPECT_HTTP_REQ_HEADER) {
                 this.contentData = undefined;
-                let p = i;
+                const p = i;
                 // REQUEST HEADER
                 if ((i = d.indexOf(ReqSig, p)) >= 0) {
                     for (let _ = 0; _ < 1; _++) {
@@ -80,7 +80,7 @@ export class HttpParser {
 
                         this.isRequest = true;
                         this.id = generateAlphaNum(12);
-                        this.method = reqBanner[0].toUpperCase();;
+                        this.method = reqBanner[0].toUpperCase();
                         this.path = decodeURI(reqBanner[1]);
 
                         this.onParsed?.({
@@ -241,7 +241,7 @@ function prepareBody(headers: HttpProtocolHeaders, isRequest: boolean): { nextSt
 }
 
 function findHeaderBlock(d: Buffer, from: number): Buffer | undefined {
-    let i = from, L = Math.min(d.length - 3, from + MaxHeaderLen);
+    let i = from; const L = Math.min(d.length - 3, from + MaxHeaderLen);
     while (i < L &&
         !(d[i] === CR && d[i + 1] === LF && d[i + 2] === CR && d[i + 3] === LF)) {
         i++;
@@ -277,7 +277,7 @@ function nextChunkSize(d: Buffer, from: number): { ok: boolean; p: number, size:
 }
 
 function nextLine(d: Buffer, from: number): string | undefined {
-    let i = from, L = Math.min(d.length - 1, from + MaxHeaderLen);
+    let i = from; const L = Math.min(d.length - 1, from + MaxHeaderLen);
     while (i < L && !(d[i] === CR && d[i + 1] === LF)) { i++ }
     return i < L ? d.slice(from, i).toString("ascii") : undefined;
 }

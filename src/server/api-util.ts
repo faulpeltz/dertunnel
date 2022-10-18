@@ -62,7 +62,7 @@ export function setupBasicAuth(conf: TunnelServiceConfig) {
     }
 }
 
-export function throwApiError(message: string, status: number = 500) {
+export function throwApiError(message: string, status = 500) {
     throw new ApiError(message, status);
 }
 

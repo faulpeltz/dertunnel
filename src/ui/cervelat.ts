@@ -1,6 +1,8 @@
 // Cervelat micro-reactive UI framework 
 // (c) faulpeltz - MIT license
 
+/* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-interface,@typescript-eslint/no-explicit-any*/
+
 export namespace CV {
     export namespace JSX {
         export interface Element { }
@@ -16,7 +18,7 @@ export type StateFunc<S> = {
 type Value = string | boolean | number | null | undefined | void;
 type AttrSpec = { [name: string]: Value; text?: string };
 
-type CompFunc<P extends {} = any, S extends {} = any> = (props: P, S: StateFunc<S>) => (object | null | boolean);
+type CompFunc<P extends object = any, S extends object = any> = (props: P, S: StateFunc<S>) => (object | null | boolean);
 
 type RNode = {
     tag: string;
@@ -54,7 +56,7 @@ export const CV = {
     }
 };
 
-export function render<S extends {}>(domRoot: HTMLElement, root: CompFunc<S, S>, initialState: S): StateFunc<S> {
+export function render<S extends object>(domRoot: HTMLElement, root: CompFunc<S, S>, initialState: S): StateFunc<S> {
     _domRoot = domRoot;
     _rootComp = root;
     _state = initialState;

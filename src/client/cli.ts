@@ -47,8 +47,8 @@ type UserConfig = {
         process.exit();
     }
 
-    let serviceUrl: string | undefined = opts["service"] || (isConfigured ? userConf.get("serviceUrl") : undefined);
-    let userOvr: string | undefined = opts["user"] || (isConfigured ? userConf.get("user") : undefined);
+    const serviceUrl: string | undefined = opts["service"] || (isConfigured ? userConf.get("serviceUrl") : undefined);
+    const userOvr: string | undefined = opts["user"] || (isConfigured ? userConf.get("user") : undefined);
     let fullToken: string | undefined = process.env.DERTUNNEL_TOKEN || (isConfigured ? userConf.get("token") : undefined);
 
     // full token encodes endpoint, username and token
@@ -66,7 +66,6 @@ type UserConfig = {
     userConf.set("configured", true);
 
     let { service, user } = unpackToken(fullToken);
-    serviceUrl ||= service;
     user = userOvr || user;
 
     let [publicEpStr, localEpStr] = cmd.args;
@@ -111,7 +110,7 @@ type UserConfig = {
     }
 
     // header line 3
-    logHeader(`Service: ${chalk.cyanBright(service)}`, 3);
+    logHeader(`Service: ${chalk.cyanBright(serviceUrl || service)}`, 3);
     // header line 4
     logHeader(`User: ${chalk.cyanBright(user)}`, 4);
     // header line 5
@@ -119,11 +118,21 @@ type UserConfig = {
 
     const inspect = !!opts["inspect"];
 
+    let serviceHost: string | undefined;
+    let servicePort: number | undefined;
+    if (serviceUrl) {
+        const u = new URL(serviceUrl);
+        serviceHost = u.host;
+        servicePort = Number.parseInt(u.port || "443");
+    }
+
     const shutdown = await connectTunnel({
         clientToken: fullToken,
         localServer,
         localPort: localPort,
         localUrl,
+        serviceHost,
+        servicePort,
         endpoint: publicEpStr,
         endpointPrefix: undefined,
         ignoreCertErrors: opts["ignoreCertErrors"] ? true : false,

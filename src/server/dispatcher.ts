@@ -193,7 +193,7 @@ export class ConnectionDispatcher {
                 socket.destroy();
             }
         });
-        socket.on("error", err => {/* NOP */ });
+        socket.on("error", () => {/* NOP */ });
     }
 
     public onEndpointConnect(ep: string, epSocket: TLSSocket): void {
@@ -202,7 +202,7 @@ export class ConnectionDispatcher {
             epSocket.destroy();
             return;
         }
-        epSocket!.setKeepAlive(true, KeepAliveTime);
+        epSocket.setKeepAlive(true, KeepAliveTime);
 
         const ts = epSocket as TaggedSocket;
         ts.channelId = channelIdCounter++;
@@ -224,7 +224,7 @@ export class ConnectionDispatcher {
                 ts.once("drain", () => epSocket.resume());
             }
         });
-        epSocket.on("error", err => {
+        epSocket.on("error", () => {
             // no difference to close
         });
         sendMessage<ServerOpenData>(endpoint.clientConnection.socket, MessageType.SERVER_OPEN, 0, {
@@ -281,4 +281,4 @@ export class ConnectionDispatcher {
             this.endpoints.delete(lep);
         }
     }
-};
+}

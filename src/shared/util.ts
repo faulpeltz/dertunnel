@@ -82,7 +82,7 @@ export function packToken(baseDomain: string, user: string, token: string) {
 }
 
 export function shuffle(v: string) {
-    let s = "", h = (v.length + 1) >> 1;
+    let s = ""; const h = (v.length + 1) >> 1;
     for (let i = 0; i < h; i++) {
         s = (v[h + i] ?? "") + v[i] + s
     }

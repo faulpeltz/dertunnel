@@ -41,7 +41,7 @@ export async function acmeCreateCertificates(baseDomain: string, acmeContactEmai
     });
 
     return { privateKey: key.toString(), cert, wasChanged: true }
-};
+}
 
 let prevCertResult: AcmeCert | undefined;
 

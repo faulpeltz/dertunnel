@@ -84,7 +84,7 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
         localServer = opts.localServer ?? "127.0.0.1";
         localPort = opts.localPort;
     } else {
-        const url = new URL(opts.localUrl!);
+        const url = new URL(opts.localUrl || "http://localhost");
         if (url.protocol !== "http:") {
             throw new Error("Local endpoints only support http protocol");
         }
@@ -95,7 +95,7 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
     const connected = deferred();
     let serviceHost = opts.serviceHost;
 
-    if (!serviceHost!.startsWith(EndpointPrefix)) {
+    if (!serviceHost.startsWith(EndpointPrefix)) {
         serviceHost = EndpointPrefix + serviceHost;
     }
 
@@ -126,10 +126,11 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
             host: serviceHost,
             port: opts.servicePort || 443,
             servername: serviceHost,
-            ...(opts.ignoreCertErrors ? { checkServerIdentity: (_, __) => undefined } : {})
+            ...(opts.ignoreCertErrors ? { checkServerIdentity: () => undefined } : {})
         }, () => {
-            tunnelSocket!.setKeepAlive(true, KeepAliveTime);
-            sendMessage<HelloReqData>(tunnelSocket!, MessageType.HELLO_REQ, 0, {
+            if (!tunnelSocket) return;
+            tunnelSocket.setKeepAlive(true, KeepAliveTime);
+            sendMessage<HelloReqData>(tunnelSocket, MessageType.HELLO_REQ, 0, {
                 version: TunnelVersion,
                 user,
                 token,

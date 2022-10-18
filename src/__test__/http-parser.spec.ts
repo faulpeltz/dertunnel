@@ -2,7 +2,7 @@ import { HttpParser, ProtocolData } from "../client/protocols";
 
 describe("HTTP inspector", () => {
     test("Request - no body", async () => {
-        let result: ProtocolData[] = [];
+        const result: ProtocolData[] = [];
         const p = new HttpParser(pd => result.push(pd));
 
         // GET+HEAD request no body
@@ -33,7 +33,7 @@ describe("HTTP inspector", () => {
     });
 
     test("Request - ld body", async () => {
-        let result: ProtocolData[] = [];
+        const result: ProtocolData[] = [];
         const p = new HttpParser(pd => result.push(pd));
 
         // POST with length-delimited body
@@ -70,7 +70,7 @@ describe("HTTP inspector", () => {
     });
 
     test("Response - chunk body", async () => {
-        let result: ProtocolData[] = [];
+        const result: ProtocolData[] = [];
         const p = new HttpParser(pd => result.push(pd));
 
         // POST with chunked body

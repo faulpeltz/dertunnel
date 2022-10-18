@@ -1,4 +1,4 @@
-import { Packet, createServer } from "dns2";
+import { Packet, createServer, DnsAnswer } from "dns2";
 
 export const dnsTextRecords: Map<string, string> = new Map();
 
@@ -7,7 +7,7 @@ export function startDnsServer(port: number, baseDomain: string, targetHost: str
 
     const dnsServer = createServer({
         udp: true,
-        handle: (request, send, rinfo) => {
+        handle: (request, send) => {
             const response = Packet.createResponseFromRequest(request);
             const [{ name, type }] = request.questions as { name: string, type: number }[];
             const canonName = name.toLowerCase();  // for 0x20 encoding support
@@ -19,7 +19,7 @@ export function startDnsServer(port: number, baseDomain: string, targetHost: str
                     class: Packet.CLASS.IN,
                     ttl: 120,
                     domain: targetHost
-                } as any);
+                });
             } else if (type === Packet.TYPE.TXT && dnsTextRecords.has(canonName)) {
                 response.answers.push({
                     name,
@@ -27,7 +27,7 @@ export function startDnsServer(port: number, baseDomain: string, targetHost: str
                     class: Packet.CLASS.IN,
                     ttl: 30,
                     data: dnsTextRecords.get(canonName) ?? ""
-                } as any);
+                } as DnsAnswer);
             }
             send(response);
         }
