@@ -29,19 +29,19 @@
     "devDependencies": {
         "@types/dns2": "^2.0.1",
         "@types/express": "^4.17.14",
-        "@types/jest": "^29.2.0",
-        "@types/node": "^18.11.0",
+        "@types/jest": "^29.2.3",
+        "@types/node": "^18.11.9",
         "@types/prompts": "~2.4.1",
-        "@typescript-eslint/eslint-plugin": "^5.40.1",
-        "@typescript-eslint/parser": "^5.40.1",
-        "esbuild": "^0.15.11",
-        "esbuild-register": "^3.3.3",
-        "eslint": "^8.25.0",
-        "eslint-plugin-jest": "^27.1.2",
-        "jest": "^29.2.0",
+        "@typescript-eslint/eslint-plugin": "^5.44.0",
+        "@typescript-eslint/parser": "^5.44.0",
+        "esbuild": "^0.15.15",
+        "esbuild-register": "^3.4.1",
+        "eslint": "^8.28.0",
+        "eslint-plugin-jest": "^27.1.5",
+        "jest": "^29.3.1",
         "pkg": "^5.8.0",
         "ts-jest": "^29.0.3",
-        "typescript": "^4.8.4"
+        "typescript": "^4.9.3"
     },
     "dependencies": {
         "acme-client": "^5.0.0",
@@ -50,9 +50,9 @@
         "conf": "^10.2.0",
         "dns2": "^2.0.5",
         "express": "^4.18.2",
-        "lru-cache": "^7.14.0",
+        "lru-cache": "^7.14.1",
         "nanoid": "^3.3.4",
         "prompts": "^2.4.2",
-        "rate-limiter-flexible": "^2.3.12"
+        "rate-limiter-flexible": "^2.4.1"
     }
 }
