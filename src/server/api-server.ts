@@ -40,7 +40,7 @@ export async function setupAppServer(conf: TunnelServiceConfig, clientConfig: Tu
     setupApiRoutes(app, conf, clientConfig, dispatcher);
 
     const publicDir = pkgEntrypoint ? path.join(pkgEntrypoint, "..", PublicFolderName)
-        : path.join(__dirname, "..", "..", PublicFolderName);
+        : path.join(process.cwd(), PublicFolderName);
     app.use(serveStatic(publicDir));
 
     const server = debug ? app.listen(ApiServerDebugPort, Local) : app.listen(0, Local);
@@ -111,7 +111,7 @@ function setupApiRoutes(app: Express, conf: TunnelServiceConfig, clientConfig: T
         // remove all open connections because token changed
         closeAllConnectionsForUser(user);
         clearAuthCache();
-        
+
         res.send({
             user,
             token: packToken(conf.baseDomain, user, newToken)
