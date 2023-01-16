@@ -1,5 +1,13 @@
 # DerTunnel Changelog
 
+## 0.4.2
+
+- Upgrade deps
+
+## 0.4.1
+
+- Upgrade deps
+
 ## 0.4.0
 
 - Upgrade packaged binaries to node 18
