@@ -28,7 +28,7 @@ pkgEntrypoint = pkgEntrypoint ? path.dirname(pkgEntrypoint) : pkgEntrypoint;
 //
 
 const serviceStartTime = new Date().valueOf();
-const apiCache = new LRUCache<string, object>({ max: 100, ttl: 2000 });
+const apiCache = new LRUCache<string, ApiServerInfo>({ max: 100, ttl: 2000 });
 
 export async function setupAppServer(conf: TunnelServiceConfig, clientConfig: TunnelClientsConfig, dispatcher: ConnectionDispatcher)
     : Promise<{ app: Express; server: Server }> {
