@@ -12,7 +12,11 @@ export enum MessageType {
 }
 
 export function msgTypeInfo(t: MessageType): { name: string, isBinary: boolean } {
-    return { name: Object.keys(MessageType).find(v => MessageType[v] === t) ?? "UNKNOWN", isBinary: !!(t & 64) }
+    return {
+        name: Object.keys(MessageType)
+            .find(v => MessageType[v as keyof typeof MessageType] === t)
+            ?? "UNKNOWN", isBinary: !!(t & 64)
+    }
 }
 
 export const TunnelVersion = 1;

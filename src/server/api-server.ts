@@ -16,6 +16,7 @@ import { apiEndpoint, setupBasicAuth } from "./api-util";
 import { ConnectionDispatcher } from "./dispatcher";
 import { acmeGetCertificateInfo } from "./acme";
 import { clearAuthCache } from "./auth";
+import { type TaggedTLSSocket } from "./server";
 
 const debug = !!process.env.DERTUNNEL_DEBUG;
 const Local = "127.0.0.1";
@@ -23,7 +24,8 @@ const ApiServerDebugPort = 4042;
 
 // for bundling/packaging
 const PublicFolderName = "public";
-let pkgEntrypoint = process["pkg"]?.entrypoint;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let pkgEntrypoint = (process as any)["pkg"]?.entrypoint;
 pkgEntrypoint = pkgEntrypoint ? path.dirname(pkgEntrypoint) : pkgEntrypoint;
 //
 
@@ -46,7 +48,7 @@ export async function setupAppServer(conf: TunnelServiceConfig, clientConfig: Tu
     const server = debug ? app.listen(ApiServerDebugPort, Local) : app.listen(0, Local);
     server.on("connection", socket => {
         // HAXX only allow forwarded TLS connections
-        if (!debug && !socket["_dt_api_"]) { socket.destroy(); }
+        if (!debug && !(socket as TaggedTLSSocket)._dt_api_) { socket.destroy(); }
     });
 
     await new Promise(resolve => server.on("listening", resolve));

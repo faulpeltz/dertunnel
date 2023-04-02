@@ -1,5 +1,11 @@
 # DerTunnel Changelog
 
+## 0.4.5
+
+- Upgrade deps
+  - Bump TS to 5.0.3 (major upgrade)
+  - Remove suppressImplicitAnyIndexErrors and fix some typings
+
 ## 0.4.4
 
 - Upgrade deps

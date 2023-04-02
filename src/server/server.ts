@@ -12,6 +12,7 @@ import { TunnelClientEndpointName, AdminEndpointName } from "../shared/models";
 
 const ReservedEndpointNames = [TunnelClientEndpointName, AdminEndpointName, "app", "api"];
 export type ServerCloseFunc = () => void;
+export type TaggedTLSSocket = tls.TLSSocket & { _dt_api_: boolean; servername?: string; };
 
 export async function startTunnelServer(config: TunnelServiceConfig, clientConfig: TunnelClientsConfig): Promise<Ref<ServerCloseFunc>> {
     const log = config.enableLogging === false ? () => { /* */ } : console.log;
@@ -23,9 +24,10 @@ export async function startTunnelServer(config: TunnelServiceConfig, clientConfi
     const { server: localAppServer } = await setupAppServer(config, clientConfig, theDispatcher);
     const serverRef: Ref<ServerCloseFunc> = { current: undefined };
 
-    const tlsSocketListener = (socket: tls.TLSSocket) => {
+    const tlsSocketListener = (_socket: tls.TLSSocket) => {
         try {
-            const srvName = socket["servername"]?.toString().toLowerCase() ?? "";
+            const socket = _socket as TaggedTLSSocket;
+            const srvName = socket.servername?.toString().toLowerCase() ?? "";
 
             // requires SNI and sane server name
             const srvNames = srvName.split(".");

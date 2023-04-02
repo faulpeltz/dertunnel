@@ -134,7 +134,8 @@ export class ConnectionDispatcher {
                     sendMessage<HelloRespData>(socket, MessageType.HELLO_RESP, 0, {
                         success: false,
                         error: (err as Error)?.message ??
-                            ((err as object)["remainingPoints"] ? "Too many connection attempts - Try again later" : "Error")
+                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                            ((err as any).remainingPoints ? "Too many connection attempts - Try again later" : "Error")
                     });
                     socket.destroy(err as Error);
                 }
