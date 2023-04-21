@@ -1,6 +1,6 @@
 import type { Server } from "http";
 import { getHeapStatistics } from "v8";
-import LRUCache from "lru-cache";
+import { LRUCache } from "lru-cache";
 
 import express, { type Express, static as serveStatic } from "express";
 import path from "path";

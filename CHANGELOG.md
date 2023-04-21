@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.4.6
+
+- Upgrade deps
+  - bump pkg-fetch to latest for node 18.15 binary
+
 ## 0.4.5
 
 - Upgrade deps

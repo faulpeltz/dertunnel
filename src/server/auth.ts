@@ -1,4 +1,4 @@
-import LRUCache from "lru-cache";
+import { LRUCache } from "lru-cache";
 import { verifyToken } from "../shared/hash";
 import { unpackToken } from "../shared/util";
 import { TunnelClientsConfig, TunnelServiceConfig } from "./config";
