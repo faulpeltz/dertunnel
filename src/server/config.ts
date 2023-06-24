@@ -52,7 +52,7 @@ export async function isServerConfigAvailable(configFile?: string): Promise<bool
 export async function loadConfig(configFile?: string): Promise<TunnelServiceConfig> {
     try {
         const resolvedFilename = configFile ?? DefaultServerConfigFileName;
-        let config = {} as TunnelServiceConfig;
+        let config = Object.create(null) as TunnelServiceConfig;
 
         let unsaved = false;
         try {
