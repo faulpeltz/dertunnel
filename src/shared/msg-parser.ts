@@ -23,7 +23,7 @@ export class MessageReceiver {
         let i = 0;
         while (i < buf.length) {
             if (buf.length < i + HeaderLen) {
-                this.buffer = buf;
+                this.buffer = buf.subarray(i);
                 return true;
             }
             if (buf[i + Magic0Offset] != Magic0 || buf[i + Magic1Offset] != Magic1) {
@@ -41,7 +41,7 @@ export class MessageReceiver {
             }
             if (buf.length >= end) {
                 try {
-                    const data = buf.slice(i + HeaderLen, end);
+                    const data = buf.subarray(i + HeaderLen, end);
                     if (debug) {
                         logMessage(type, channel, data, false);
                     }
@@ -54,7 +54,7 @@ export class MessageReceiver {
             } else break;
             i = end;
         }
-        this.buffer = buf.length > i ? buf.slice(i) : undefined;
+        this.buffer = buf.length > i ? buf.subarray(i) : undefined;
         return true;
     }
 
