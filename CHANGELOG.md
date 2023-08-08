@@ -1,5 +1,9 @@
 # DerTunnel Changelog
 
+## 0.4.9
+
+- Upgrade deps
+
 ## 0.4.8
 
 - Fix potential duplicate messages created by message parser
