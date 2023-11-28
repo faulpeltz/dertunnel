@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.5.0
+
+- Upgrade deps and move to new pkg fork
+- Deprecate Node 16 support and and Node 20 CI build
+
 ## 0.4.10
 
 - Upgrade deps

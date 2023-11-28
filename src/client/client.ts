@@ -142,7 +142,7 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
         tunnelSocket.setMaxListeners(0);
 
         const localSockets = new Map<number, LocalTunnelSocket>();
-        let pingTimer: NodeJS.Timer | undefined;
+        let pingTimer: NodeJS.Timeout | undefined;
         let pongTimeout: NodeJS.Timeout | undefined;
 
         // messages from server
@@ -151,7 +151,7 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
                 const msg = jsonData<HelloRespData>(data);
                 if (!msg.success) {
                     tunnelSocket?.destroy();
-                    const errMsg = "Server connection error: " + msg.error ?? "Unknown error";
+                    const errMsg = "Server connection error: " + (msg.error ?? "Unknown error");
                     connected.reject(new Error(errMsg));
                     void opts.onError?.(errMsg);
                     return;

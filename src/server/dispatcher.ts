@@ -58,7 +58,7 @@ export class ConnectionDispatcher {
             bytesSent: 0
         };
 
-        let pingTimer: NodeJS.Timer | undefined;
+        let pingTimer: NodeJS.Timeout | undefined;
         let pongTimeout: NodeJS.Timeout | undefined;
         socket.setKeepAlive(true, KeepAliveTime);
 

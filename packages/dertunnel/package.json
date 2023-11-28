@@ -1,6 +1,6 @@
 {
     "name": "@faulpeltz/dertunnel",
-    "version": "0.4.10",
+    "version": "0.5.0",
     "description": "A client for the dertunnel public endpoint forwarder",
     "main": "./index.js",
     "typings": "./client.d.ts",
