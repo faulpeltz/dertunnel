@@ -1,5 +1,9 @@
 # DerTunnel Changelog
 
+## 0.6.1
+
+- Upgrade deps
+
 ## 0.6.0
 
 - Upgrade deps

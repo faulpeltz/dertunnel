@@ -35,7 +35,7 @@ export function setupBasicAuth(conf: TunnelServiceConfig) {
     return function adminBasicAuth(req: Request, res: Response, next: NextFunction): void {
         function sendBasicAuthChallenge() {
             // rate limit key is request ip for anon and userId for logged-in requests
-            limiter.consume(req.ip)
+            limiter.consume(req.ip || "")
                 .then(() => {
                     res.header("www-authenticate", `Basic realm="DerTunnel Server Admin", charset="UTF-8"`)
                         .status(401).send();
