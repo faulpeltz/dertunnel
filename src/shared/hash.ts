@@ -15,6 +15,7 @@ export async function hashToken(token: string): Promise<string> {
 export async function verifyToken(hash: string, token: string): Promise<boolean> {
     return new Promise(resolve => {
         const [salt, hashed] = hash.split(":");
+        if (!salt || !hashed) { return false; }
         scrypt(token, salt, KeyLen, (_, buf) => resolve(safeEquals(buf.toString("base64"), hashed)));
     });
 }

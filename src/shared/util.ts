@@ -69,7 +69,7 @@ export function unpackToken(token: string): { service: string; user: string; tok
     const unpacked = Buffer.from(unshuffle(token), "base64")
         .toString("utf8")
         .split("#");
-    return { service: unpacked[0], user: unpacked[1], token: unpacked[2] }
+    return { service: unpacked[0] ?? "", user: unpacked[1] ?? "", token: unpacked[2] ?? "" }
 }
 
 export function packToken(baseDomain: string, user: string, token: string) {

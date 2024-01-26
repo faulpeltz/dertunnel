@@ -112,7 +112,7 @@ export function updateProtocolDataState(type: string, cid: string, data: Protoco
     } else {
         const ridx = uiState.inspectedRequests.findIndex(r => r.cid === cid);
         if (ridx >= 0) {
-            const prev = uiState.inspectedRequests[ridx];
+            const prev = uiState.inspectedRequests[ridx]!;
             uiState.inspectedRequests[ridx] = {
                 id: prev.id,
                 cid: prev.cid,
@@ -128,8 +128,8 @@ export function updateProtocolDataState(type: string, cid: string, data: Protoco
             };
         }
     }
-    
-    protocolDataUpdater.update(undefined); 
+
+    protocolDataUpdater.update(undefined);
 }
 
 export function formatStatusLines(s: ClientEndpointStats): string[] {

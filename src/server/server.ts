@@ -32,7 +32,7 @@ export async function startTunnelServer(config: TunnelServiceConfig, clientConfi
             // requires SNI and sane server name
             const srvNames = srvName.split(".");
             const [ep, ...suffix] = srvNames;
-            if (!srvName || !(suffix.join(".") === config.baseDomain)) {
+            if (!ep || !srvName || !(suffix.join(".") === config.baseDomain)) {
                 socket.destroy();
                 return;
             }

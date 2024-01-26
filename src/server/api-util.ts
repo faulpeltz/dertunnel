@@ -48,7 +48,7 @@ export function setupBasicAuth(conf: TunnelServiceConfig) {
         if (auth) {
             const [t, cred] = auth.split(" ");
             if (t === "Basic") {
-                const userPwd = Buffer.from(cred, "base64").toString("utf8");
+                const userPwd = Buffer.from(cred ?? "", "base64").toString("utf8");
                 const i = userPwd.indexOf(":");
                 if (i > 0) {
                     authenticateAdmin(conf, userPwd.slice(0, i), userPwd.slice(i + 1)).then(ok => {

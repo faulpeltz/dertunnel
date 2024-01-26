@@ -10,6 +10,7 @@
         "experimentalDecorators": true,
         "emitDecoratorMetadata": false,
         "strict": true,
+        "noUncheckedIndexedAccess": true,
         "forceConsistentCasingInFileNames": true,
         "isolatedModules": true,
         "skipLibCheck": true,

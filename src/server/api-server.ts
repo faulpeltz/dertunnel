@@ -130,7 +130,7 @@ function setupApiRoutes(app: Express, conf: TunnelServiceConfig, clientConfig: T
             await saveClientConfig(clientConfig);
 
             // remove all open connections because user was deleted
-            closeAllConnectionsForUser(user);
+            closeAllConnectionsForUser(user!);
             clearAuthCache();
 
             res.send({

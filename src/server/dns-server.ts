@@ -9,20 +9,21 @@ export function startDnsServer(port: number, baseDomain: string, targetHost: str
         udp: true,
         handle: (request, send) => {
             const response = Packet.createResponseFromRequest(request);
-            const [{ name, type }] = request.questions as { name: string, type: number }[];
-            const canonName = name.toLowerCase();  // for 0x20 encoding support
+            const [r] = request.questions as { name: string, type: number }[];
+            if (!r) { return; }
+            const canonName = r.name.toLowerCase();  // for 0x20 encoding support
             if (!canonName.endsWith(suffix) && canonName !== baseDomain) { return; }
-            if (type === Packet.TYPE.A) {
+            if (r.type === Packet.TYPE.A) {
                 response.answers.push({
-                    name,
+                    name: r.name,
                     type: Packet.TYPE.CNAME,
                     class: Packet.CLASS.IN,
                     ttl: 120,
                     domain: targetHost
                 });
-            } else if (type === Packet.TYPE.TXT && dnsTextRecords.has(canonName)) {
+            } else if (r.type === Packet.TYPE.TXT && dnsTextRecords.has(canonName)) {
                 response.answers.push({
-                    name,
+                    name: r.name,
                     type: Packet.TYPE.TXT,
                     class: Packet.CLASS.IN,
                     ttl: 30,

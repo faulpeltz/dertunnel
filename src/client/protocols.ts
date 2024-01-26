@@ -64,7 +64,7 @@ export class HttpParser {
                         const j = i + ReqSig.length;
                         while (i > 0 && d[i - 1] !== LF && d[i - 1] !== CR) i--;
 
-                        const reqBanner = d.slice(i, j).toString("ascii").split(" ");
+                        const reqBanner = d.subarray(i, j).toString("ascii").split(" ");
 
                         if (reqBanner.length !== 3) { i = j; break; }
 
@@ -80,8 +80,8 @@ export class HttpParser {
 
                         this.isRequest = true;
                         this.id = generateAlphaNum(12);
-                        this.method = reqBanner[0].toUpperCase();
-                        this.path = decodeURI(reqBanner[1]);
+                        this.method = reqBanner[0]!.toUpperCase();
+                        this.path = decodeURI(reqBanner[1]!);
 
                         this.onParsed?.({
                             id: this.id,
@@ -101,7 +101,7 @@ export class HttpParser {
                     while (i < L && !(d[i + 1] === CR && d[i + 2] === LF)) i++;
 
                     for (let _ = 0; _ < 1; _++) {
-                        const resBanner = d.slice(j, i + 1).toString("ascii").split(" ");
+                        const resBanner = d.subarray(j, i + 1).toString("ascii").split(" ");
                         if (resBanner.length < 3) { break; }
 
                         const hdr = findHeaderBlock(d, j);
@@ -114,7 +114,7 @@ export class HttpParser {
                         }
                         else break;
 
-                        const statusCode = Number.parseInt(resBanner[1]);
+                        const statusCode = Number.parseInt(resBanner[1]!);
                         if (!Number.isFinite(statusCode) || statusCode < 100 || statusCode > 999) break;
 
                         this.isRequest = false;
