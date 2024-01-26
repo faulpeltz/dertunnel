@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.6.2
+
+- Enable Typescript setting 'noUncheckedIndexedAccess' and fix (minor) issues
+- Upgrade deps
+
 ## 0.6.1
 
 - Upgrade deps
