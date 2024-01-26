@@ -30,11 +30,11 @@
         "@types/dns2": "2.0.8",
         "@types/express": "4.17.21",
         "@types/jest": "29.5.11",
-        "@types/node": "20.11.5",
+        "@types/node": "20.11.7",
         "@types/prompts": "~2.4.9",
-        "@typescript-eslint/eslint-plugin": "6.19.0",
-        "@typescript-eslint/parser": "6.19.0",
-        "esbuild": "0.19.11",
+        "@typescript-eslint/eslint-plugin": "6.19.1",
+        "@typescript-eslint/parser": "6.19.1",
+        "esbuild": "0.19.12",
         "esbuild-register": "3.5.0",
         "eslint": "8.56.0",
         "eslint-plugin-jest": "27.6.3",
@@ -43,15 +43,15 @@
         "typescript": "5.3.3"
     },
     "dependencies": {
-        "acme-client": "5.0.0",
+        "acme-client": "5.2.0",
         "chalk": "5.3.0",
         "commander": "11.1.0",
         "conf": "10.2.0",
         "dns2": "2.1.0",
         "express": "4.18.2",
-        "lru-cache": "10.1.0",
+        "lru-cache": "10.2.0",
         "nanoid": "3.3.7",
         "prompts": "2.4.2",
-        "rate-limiter-flexible": "4.0.0"
+        "rate-limiter-flexible": "4.0.1"
     }
 }
