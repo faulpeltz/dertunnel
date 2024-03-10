@@ -2,12 +2,13 @@ import { AcmeCertInfo } from "../shared/models";
 import { formatDuration } from "../shared/util";
 import { Version } from "../version";
 import { apiCreateOrUpdateClient, apiDeleteClient, apiGetClients, apiGetServerInfo } from "./api";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CV, render, StateFunc } from "./cervelat";
 import { initialState, RenderState } from "./state";
 
 let S: StateFunc<RenderState>;
 
-window["_startUi"] = async function () {
+(window as unknown as { _startUi: () => Promise<void> })["_startUi"] = async function () {
     try {
         console.info("Starting UI");
         S = render(document.getElementById("root")!, MainPanel, initialState);
@@ -70,7 +71,7 @@ export const ClientsPanel = ({ clients }: Pick<RenderState, "clients">) => {
                 <td><strong>User</strong></td>
                 <td><strong>Endpoints</strong></td><td></td>
             </thead>
-            <tbody> {clients.map((client, i) => {
+            <tbody> {clients.map((client) => {
                 return <tr>
                     <td>{client.name}</td>
                     <td>{client.endpoints.length > 0 ? client.endpoints.map(ep => {

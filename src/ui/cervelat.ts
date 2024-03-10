@@ -1,4 +1,4 @@
-// Cervelat micro-reactive UI framework 
+// Cervelat micro-reactive UI library 
 // (c) faulpeltz - MIT license
 
 /* eslint-disable @typescript-eslint/no-namespace, @typescript-eslint/no-empty-interface,@typescript-eslint/no-explicit-any*/
@@ -104,25 +104,26 @@ function renderToDom(renderNodes: RNode[], domParent: HTMLElement): void {
         return;
     }
 
-    const cnt = {};
+    const cnt: Record<string, number> = {};
     for (const rn of renderNodes) {
         const n = cnt[rn.tag] ?? 0;
         rn.ident = `${rn.tag}${n}`;
         cnt[rn.tag] = n + 1;
     }
 
-    const dnMap = new Map<string, Node>();
-    domParent.childNodes.forEach(dn => dnMap.set(dn[Cvid] as string, dn));
+    type CvNode = ChildNode & { [Cvid]: string, [n: string]: Value };
+    const dnMap = new Map<string, CvNode>();
+    domParent.childNodes.forEach(dn => dnMap.set((dn as CvNode)[Cvid] as string, dn as CvNode));
 
     for (let i = 0; i < renderNodes.length; i++) {
         const rn = renderNodes[i] as Required<RNode>;
-        let dn: Node = domParent.childNodes[i];
+        let dn = domParent.childNodes[i] as CvNode;
         if (rn.ident !== dn?.[Cvid]) {
             dn = dnMap.get(rn.ident) ??
                 (rn.tag !== TextTag ?
                     document.createElement(rn.tag)
                     : document.createTextNode(rn.attrs.text ?? "")
-                );
+                ) as unknown as CvNode;
             dn[Cvid] = rn.ident;
             domParent.insertBefore(dn, domParent.childNodes[i]);
         }
@@ -130,10 +131,10 @@ function renderToDom(renderNodes: RNode[], domParent: HTMLElement): void {
         const isElement = dn.nodeType !== Node.TEXT_NODE;
         if (rn.attrs !== null) {
             if (isElement) {
-                const edn = dn as Element;
+                const edn = dn as Element & CvNode;
                 for (const k of Object.keys(rn.attrs)) {
                     if (k === "style") {
-                        Object.assign(dn[k], rn.attrs[k]);
+                        Object.assign(dn[k]!, rn.attrs[k]);
                     } else if (k.startsWith("on")) {
                         dn[k.toLowerCase()] = rn.attrs[k];
                     } else {
@@ -152,7 +153,7 @@ function renderToDom(renderNodes: RNode[], domParent: HTMLElement): void {
         }
 
         if (isElement) {
-            renderToDom(rn.children, dn as HTMLElement);
+            renderToDom(rn.children, dn as unknown as HTMLElement);
         }
     }
 
@@ -162,5 +163,4 @@ function renderToDom(renderNodes: RNode[], domParent: HTMLElement): void {
 }
 
 function isString(s: unknown): s is string { return typeof s === "string"; }
-
 function isObject(o: unknown): o is object { return o !== null && typeof o === "object"; }
