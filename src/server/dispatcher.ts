@@ -179,7 +179,7 @@ export class ConnectionDispatcher {
             else if (type === MessageType.END) {
                 cc.state = ClientState.ENDED;
                 socket.destroy();
-            } 
+            }
             else if (type === MessageType.PONG) {
                 pongTimeout && clearTimeout(pongTimeout);
             }
@@ -222,7 +222,7 @@ export class ConnectionDispatcher {
             // flow control
             if (!ok && !epSocket.isPaused()) {
                 epSocket.pause();
-                ts.once("drain", () => epSocket.resume());
+                endpoint.clientConnection.socket.once("drain", () => epSocket.resume());
             }
         });
         epSocket.on("error", () => {

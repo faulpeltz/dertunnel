@@ -122,7 +122,7 @@ type UserConfig = {
     let servicePort: number | undefined;
     if (serviceUrl) {
         const u = new URL(serviceUrl);
-        serviceHost = u.host;
+        serviceHost = u.hostname;
         servicePort = Number.parseInt(u.port || "443");
     }
 
