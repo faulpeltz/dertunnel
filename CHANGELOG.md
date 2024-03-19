@@ -1,5 +1,14 @@
 # DerTunnel Changelog
 
+## 0.6.6
+
+- Upgrade deps
+
+## 0.6.5
+
+- Upgrade deps
+- Fix a potential issue in client flow backpressure handling
+
 ## 0.6.4
 
 - Upgrade deps
