@@ -26,7 +26,7 @@ const fork = require("child_process").fork;
 
     console.debug(`Exporting ${licenses.length} licenses`);
 
-    const licStream = fs.createWriteStream(path.join(outDir, "LICENSES.txt"), { flags: 'w' });
+    const licStream = fs.createWriteStream(path.join(outDir, "LICENSES_bundled.txt"), { flags: 'w' });
     for (const lic of licenses) {
         let licText = licData.get(lic.licenseFile);
         if (!licText) {

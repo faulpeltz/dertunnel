@@ -1,5 +1,9 @@
 # DerTunnel Changelog
 
+## 0.6.8
+
+- Collect bundled licenses in dist/LICENSES_bundled.txt
+
 ## 0.6.7
 
 - Upgrade deps
