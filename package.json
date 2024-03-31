@@ -1,6 +1,6 @@
 {
     "name": "dertunnel",
-    "version": "0.6.7",
+    "version": "0.6.8",
     "description": "A ngrok-style tunnel client/server",
     "main": "index.js",
     "scripts": {
@@ -9,9 +9,10 @@
         "token": "node -r esbuild-register src/create-token.ts",
         "test": "jest",
         "compile": "tsc --noemit",
+        "licenses": "node ./licenses.js ./dist",
         "lint": "eslint src/ --ext .ts",
         "ci": "npm run compile && npm run lint && npm run test && npm run package",
-        "bundle": "npm run server:bundle && npm run client:bundle && npm run ui:bundle && npm run client:lib",
+        "bundle": "npm run licenses && npm run server:bundle && npm run client:bundle && npm run ui:bundle && npm run client:lib",
         "server:bundle": "esbuild --target=es2022 --bundle --minify --platform=node --outfile=./dist/dertunnel-server.js ./src/server/index.ts",
         "client:bundle": "esbuild --target=es2022 --bundle --minify --platform=node --outfile=./dist/dertunnel-client.js ./src/client/cli.ts",
         "client:lib": "esbuild --target=es2021 --bundle --minify --platform=node --outfile=./packages/dertunnel/index.js ./src/client/client.ts && cd packages/dertunnel && npm pack --pack-destination ../../dist && cd ../..",
@@ -34,12 +35,13 @@
         "@types/prompts": "~2.4.9",
         "@typescript-eslint/eslint-plugin": "7.4.0",
         "@typescript-eslint/parser": "7.4.0",
+        "@yao-pkg/pkg": "5.11.5",
         "esbuild": "0.20.2",
         "esbuild-register": "3.5.0",
         "eslint": "8.57.0",
         "eslint-plugin-jest": "27.9.0",
         "jest": "29.7.0",
-        "@yao-pkg/pkg": "5.11.5",
+        "license-compliance": "2.0.1",
         "typescript": "5.4.3"
     },
     "dependencies": {
