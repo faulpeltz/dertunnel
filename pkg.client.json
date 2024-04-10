@@ -1,6 +1,6 @@
 {
     "scripts": "dist/dertunnel-client.js",
     "compress": "GZip",
-    "targets": ["node20-win", "node20-linux-x64"],
+    "targets": ["node20-win", "node20-linux-x64", "node20-macos-x64", "node20-macos-arm64"],
     "outputPath": "build"
 }

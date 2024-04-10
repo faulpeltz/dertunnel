@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.6.9
+
+- Add macOS builds
+- Upgrade deps
+
 ## 0.6.8
 
 - Collect bundled licenses in dist/LICENSES_bundled.txt

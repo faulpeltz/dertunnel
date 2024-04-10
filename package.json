@@ -1,6 +1,6 @@
 {
     "name": "dertunnel",
-    "version": "0.6.8",
+    "version": "0.6.9",
     "description": "A ngrok-style tunnel client/server",
     "main": "index.js",
     "scripts": {
@@ -31,10 +31,10 @@
         "@types/dns2": "2.0.9",
         "@types/express": "4.17.21",
         "@types/jest": "29.5.12",
-        "@types/node": "20.11.30",
+        "@types/node": "20.12.7",
         "@types/prompts": "~2.4.9",
-        "@typescript-eslint/eslint-plugin": "7.4.0",
-        "@typescript-eslint/parser": "7.4.0",
+        "@typescript-eslint/eslint-plugin": "7.6.0",
+        "@typescript-eslint/parser": "7.6.0",
         "@yao-pkg/pkg": "5.11.5",
         "esbuild": "0.20.2",
         "esbuild-register": "3.5.0",
@@ -42,7 +42,7 @@
         "eslint-plugin-jest": "27.9.0",
         "jest": "29.7.0",
         "license-compliance": "2.0.1",
-        "typescript": "5.4.3"
+        "typescript": "5.4.4"
     },
     "dependencies": {
         "acme-client": "5.3.0",
@@ -52,7 +52,7 @@
         "dns2": "2.1.0",
         "express": "4.19.2",
         "lru-cache": "10.2.0",
-        "nanoid": "5.0.6",
+        "nanoid": "5.0.7",
         "prompts": "2.4.2",
         "rate-limiter-flexible": "5.0.0"
     }
