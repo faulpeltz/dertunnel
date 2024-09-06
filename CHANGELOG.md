@@ -1,5 +1,9 @@
 # DerTunnel Changelog
 
+## 0.6.13
+
+- Upgrade deps (with current pkg-fetch binaries)
+
 ## 0.6.12
 
 - Upgrade deps
