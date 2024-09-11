@@ -1,5 +1,9 @@
 # DerTunnel Changelog
 
+## 0.6.14
+
+- Upgrade deps (new express minor 4.20)
+
 ## 0.6.13
 
 - Upgrade deps (with current pkg-fetch binaries)
