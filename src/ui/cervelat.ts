@@ -5,7 +5,6 @@
 
 export namespace CV {
     export namespace JSX {
-        export interface Element { }
         export type IntrinsicElements = { [tag: string]: any; }
     }
 }
