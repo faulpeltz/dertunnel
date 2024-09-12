@@ -1,5 +1,9 @@
 # DerTunnel Changelog
 
+## 0.6.15
+
+- Upgrade deps
+
 ## 0.6.14
 
 - Upgrade deps (new express minor 4.20)
