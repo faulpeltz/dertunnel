@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.6.17
+
+- Fix Dockerfile build
+- Upgrade deps
+
 ## 0.6.16
 
 - Upgrade deps

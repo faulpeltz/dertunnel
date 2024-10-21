@@ -1,4 +1,6 @@
+import { existsSync } from "fs";
 import fs from "fs/promises";
+
 import { hashToken } from "../shared/hash";
 import { assertArray, assertBool, assertHostname, assertNumber, assertString, assertUserName } from "../shared/validate";
 
@@ -138,4 +140,12 @@ export async function saveClientConfig(config: TunnelClientsConfig, configFile?:
     await fs.rename(configFile, oldFile);
     await fs.rename(tmpFile, configFile);
     await fs.unlink(oldFile);
+}
+
+export async function createClientConfigIfNotExists(config: TunnelClientsConfig, configFile?: string): Promise<void> {
+    configFile ??= lastClientConfigFileName ?? DefaultClientConfigFileName;
+    if (!existsSync(configFile)) {
+        const text = JSON.stringify(config, undefined, 2);
+        await fs.writeFile(configFile, text);
+    }
 }

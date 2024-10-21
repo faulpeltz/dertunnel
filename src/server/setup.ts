@@ -24,9 +24,9 @@ export async function performInitialSetup(): Promise<TunnelServiceConfig> {
         validate: v => HostnameValidator.test(v)
     }, {
         name: "port",
-        type: "number",
+        type: "text",
         message: "TLS server listening port",
-        initial: 443,
+        initial: "443",
         validate: isPortNumber
     }, {
         name: "enableLogging",
@@ -40,9 +40,9 @@ export async function performInitialSetup(): Promise<TunnelServiceConfig> {
         initial: true
     }, {
         name: "dnsPort",
-        type: (_, values) => values.enableDns ? "number" : false,
+        type: (_, values) => values.enableDns ? "text" : false,
         message: "DNS server listening port",
-        initial: 53,
+        initial: "53",
         validate: isPortNumber
     }, {
         name: "dnsTargetHost",
@@ -62,8 +62,12 @@ export async function performInitialSetup(): Promise<TunnelServiceConfig> {
         name: "acmeCertDir",
         type: (_, values) => values.enableAcme && values.enableDns ? "text" : false,
         message: "Local directory for caching ACME certificates (must be writable)",
-        initial: "./cert-data"
+        initial: "./data"
     }], { onCancel: () => { cancelled = true; return false } }) as TunnelServiceConfig;
+
+    // HAXX prompts "nunber" type bug - no initial value
+    conf.dnsPort = Number.parseInt(conf.dnsPort as unknown as string);
+    conf.port = Number.parseInt(conf.port as unknown as string);
 
     if (cancelled) {
         throw new Error("Setup aborted by user");

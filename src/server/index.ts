@@ -2,7 +2,10 @@ import chalk from "chalk";
 import { program } from "commander";
 import { Version } from "../version";
 
-import { isServerConfigAvailable, loadClientConfig, loadConfig, saveConfig } from "./config";
+import {
+    createClientConfigIfNotExists, isServerConfigAvailable,
+    loadClientConfig, loadConfig, saveClientConfig, saveConfig
+} from "./config";
 import { startDnsServer } from "./dns-server";
 import { startTunnelServer } from "./server";
 import { performInitialSetup, resetAdminTokenAndPrint } from "./setup";
@@ -29,8 +32,11 @@ const log = console.log;
 
     // initial setup only    
     if (cmdOpts.setup) {
+        // ask for server config
         const conf = await performInitialSetup();
         await saveConfig(conf, cmdOpts.serverconfig);
+        // init client config file if necessary
+        await createClientConfigIfNotExists({ clients: [] }, cmdOpts.clientconfig);
         process.exit(0);
     }
 

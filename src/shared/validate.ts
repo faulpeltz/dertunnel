@@ -1,7 +1,8 @@
 export const HostnameValidator = /^(([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])\.)*([a-z0-9]|[a-z0-9][a-z0-9-]*[a-z0-9])$/i;
 export const EndpointValidator = /^[a-z0-9][a-z0-9-]*[a-z0-9]$/i;
 
-export const isPortNumber = function (v: unknown) { return typeof v === "number" && v > 0 && v < 0x10000 }
+export const isPortNumber = function (v: unknown) { console.log("#PORT", v); return (typeof v === "number" && v > 0 && v < 0x10000) || 
+        typeof v === "string" && Number.parseInt(v) > 0 && Number.parseInt(v) < 0x10000 };
 
 export function assertHostname(value: unknown, label: string): void {
     if (typeof (value) !== "string" || !HostnameValidator.test(value)) {
