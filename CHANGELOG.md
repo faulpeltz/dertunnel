@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.6.20
+
+- Upgrade deps
+- Move to Node 22
+
 ## 0.6.19
 
 - Upgrade deps
