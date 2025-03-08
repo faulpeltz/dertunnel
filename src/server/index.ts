@@ -21,6 +21,7 @@ const log = console.log;
         .option("--clientconfig", "Optional client config file name (defaults to ./clients.json)")
         .option("--resetadmin", "Reset admin login token")
         .option("--setup", "Initial configuration setup")
+        .allowExcessArguments()
         .parse();
 
     const cmdOpts = opts.opts<{
