@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.6.23
+
+- Upgrade deps
+- Move to Express 5
+
 ## 0.6.22
 
 - Upgrade deps
