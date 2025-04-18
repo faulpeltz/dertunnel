@@ -1,5 +1,9 @@
 # DerTunnel Changelog
 
+## 0.6.24
+
+- Fix potential ACME DNS challenge race condition
+
 ## 0.6.23
 
 - Upgrade deps
