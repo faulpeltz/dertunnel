@@ -13,7 +13,8 @@ export function startDnsServer(port: number, baseDomain: string, targetHost: str
             if (!r) { return; }
             const canonName = r.name.toLowerCase();  // for 0x20 encoding support
             if (!canonName.endsWith(suffix) && canonName !== baseDomain) { return; }
-            if (r.type === Packet.TYPE.A) {
+
+            if (r.type === Packet.TYPE.A && !canonName.startsWith("_acme-challenge")) {
                 response.answers.push({
                     name: r.name,
                     type: Packet.TYPE.CNAME,
