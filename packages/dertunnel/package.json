@@ -6,6 +6,7 @@
     "typings": "./client.d.ts",
     "scripts": {
     },
+    "bin": "dertunnel-client.js",
     "keywords": [
         "tunnel", "dertunnel"
     ],
