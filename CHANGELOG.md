@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.7.0
+
+- Include cli client in NPM package
+- Allow initial configuration with environment variables
+
 ## 0.6.24
 
 - Fix potential ACME DNS challenge race condition
