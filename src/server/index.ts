@@ -42,8 +42,8 @@ const log = console.log;
     }
 
     // fail on missing config file
-    if (!await isServerConfigAvailable(cmdOpts.serverconfig)) {
-        log("Server config file not found.\nRun with --setup for initial configuration\n");
+    if (!(await isServerConfigAvailable(cmdOpts.serverconfig)) && !process.env.DERTUNNEL_BASE_DOMAIN) {
+        log("Server config file not found.\nRun with --setup or use environment vars for initial configuration\n");
         process.exit(1);
     }
 

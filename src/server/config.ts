@@ -67,16 +67,16 @@ export async function loadConfig(configFile?: string): Promise<TunnelServiceConf
         const E = process.env;
 
         config.baseDomain ??= E.DERTUNNEL_BASE_DOMAIN!;
-        config.port ??= E.DERTUNNEL_PORT ? Number.parseInt(E.DERTUNNEL_PORT) : 443;
-        config.enableLogging ??= E.DERTUNNEL_LOGGING_ENABLE !== undefined ? !!E.DERTUNNEL_LOGGING_ENABLE : false;
+        config.port ??= E.DERTUNNEL_PORT ? Number.parseInt(E.DERTUNNEL_PORT) : 4430;
+        config.enableLogging ??= E.DERTUNNEL_LOGGING_ENABLE !== undefined ? !!E.DERTUNNEL_LOGGING_ENABLE : true;
 
-        config.enableDns ??= E.DERTUNNEL_DNS_ENABLE !== undefined ? !!E.DERTUNNEL_DNS_ENABLE : false;
-        config.dnsPort ??= E.DERTUNNEL_DNS_PORT ? Number.parseInt(E.DERTUNNEL_DNS_PORT) : 53;
+        config.enableDns ??= E.DERTUNNEL_DNS_ENABLE !== undefined ? !!E.DERTUNNEL_DNS_ENABLE : true;
+        config.dnsPort ??= E.DERTUNNEL_DNS_PORT ? Number.parseInt(E.DERTUNNEL_DNS_PORT) : 5300;
         config.dnsTargetHost ??= E.DERTUNNEL_DNS_TARGET_HOST!;
 
-        config.enableAcme ??= E.DERTUNNEL_ACME_ENABLE !== undefined ? !!E.DERTUNNEL_ACME_ENABLE : false;
-        config.acmeCertDir ??= E.DERTUNNEL_ACME_CERT_DIR!;
-        config.acmeContactEmail ??= E.DERTUNNEL_ACME_EMAIL!;
+        config.enableAcme ??= E.DERTUNNEL_ACME_ENABLE !== undefined ? !!E.DERTUNNEL_ACME_ENABLE : true;
+        config.acmeCertDir ??= E.DERTUNNEL_ACME_CERT_DIR! || "./data";
+        config.acmeContactEmail ??= E.DERTUNNEL_ACME_EMAIL! || "user@example.org";
 
         if (!config.adminTokenHash && E.DERTUNNEL_ADMIN_SECRET_TOKEN) {
             assertString(E.DERTUNNEL_ADMIN_SECRET_TOKEN, "adminToken", 8);
