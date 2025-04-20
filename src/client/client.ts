@@ -7,6 +7,7 @@ import { jsonData, MessageReceiver, sendMessage } from "../shared/msg-parser";
 import { generateAlphaNum } from "../shared/random";
 import { deferred, Throttled, unpackToken } from "../shared/util";
 import { HttpParser, ProtocolDataType, type ProtocolData } from "./protocols";
+import { log } from "./tui";
 
 export type ClientEndpointStats = {
     currentConnections: number;
@@ -318,11 +319,15 @@ export async function connectTunnel(opts: ClientOptions): Promise<() => void> {
             reconnectTimer.reconnectTime = Math.min(maxReconnectTime, reconnectTimer.reconnectTime * reconnectBackoff);
         });
         tunnelSocket.on("data", (data: Buffer) => {
-            if (closing) { return; }
-            if (!receiver.receive(data)) {
-                // protocol violation
-                tunnelSocket?.destroy();
-            }
+            if (closing || !tunnelSocket) { return; }
+
+            tunnelSocket.pause();
+            receiver.receive(data).then(ok => {
+                if (!ok) { // protocol violation
+                    tunnelSocket?.destroy();
+                }
+                tunnelSocket?.resume();
+            }).catch(err => log(`Unexpected parser error: ${err.message}`));
         });
     };
 

@@ -189,10 +189,14 @@ export class ConnectionDispatcher {
         });
 
         socket.on("data", buf => {
-            if (!cc.receiver?.receive(buf)) {
-                // protocol violation
-                socket.destroy();
-            }
+            if (!cc.receiver) { socket.destroy(); return; }
+            socket.pause();
+            cc.receiver.receive(buf).then(ok => {
+                if (!ok) { // protocol violation
+                    socket.destroy();
+                }
+                socket.resume();
+            }).catch(err => log(`Unexpected parser error: ${err.message}`));
         });
         socket.on("error", () => {/* NOP */ });
     }
