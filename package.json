@@ -1,6 +1,6 @@
 {
     "name": "dertunnel",
-    "version": "0.7.0",
+    "version": "0.7.1",
     "description": "A ngrok-style tunnel client/server",
     "main": "index.js",
     "scripts": {

@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.7.1
+
+- Fix abort handling in server and client tunnel messaging
+- Fix async flow control when processing messages
+
 ## 0.7.0
 
 - Include cli client in NPM package
