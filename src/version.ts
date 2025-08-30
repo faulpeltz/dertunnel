@@ -1,2 +1,2 @@
 // TODO get version from package json or git
-export const Version = "0.7.4"; 
+export const Version ="0.7.5"; 
