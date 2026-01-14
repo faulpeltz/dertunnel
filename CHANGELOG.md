@@ -1,5 +1,10 @@
 # DerTunnel Changelog
 
+## 0.7.9
+
+- Upgrade deps
+- add global error/rejection handler and log
+
 ## 0.7.8
 
 - Upgrade deps

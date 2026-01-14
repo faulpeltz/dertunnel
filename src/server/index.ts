@@ -79,6 +79,26 @@ const log = console.log;
             process.exit(0);
         })
     });
+
+
+    // global unhandled reject logger
+    process.on("unhandledRejection", err => {
+        if (err instanceof Error) {
+            console.error("UNHANDLED_ERROR[1a]:", err.stack);
+        } else {
+            console.error("UNHANDLED_ERROR[1b]:", typeof err);
+        }
+    });
+
+    // global uncaught logger
+    process.on("uncaughtException", (err, org) => {
+        if (err instanceof Error) {
+            console.error("UNHANDLED_ERROR[2a]:", err.stack);
+        } else {
+            console.error("UNHANDLED_ERROR[2b]:", typeof err);
+        }
+    });
+
     Object.seal(Object.prototype); Object.seal(Object);
 })().catch(err => {
     console.error("Fatal:", (err as Error).message);

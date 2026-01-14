@@ -88,6 +88,9 @@ export async function startTunnelServer(config: TunnelServiceConfig, clientConfi
                     key: certs.privateKey,
                     cert: certs.cert,
                 }, tlsSocketListener);
+                theServer.on("error", (err) => {
+                    log(`TLS server error: ${(err as Error).message}`);
+                });
             } else {
                 log(`ACME certificate check resulted in no changes`);
             }
@@ -97,6 +100,9 @@ export async function startTunnelServer(config: TunnelServiceConfig, clientConfi
                 key: fs.readFileSync("./data/cert.key"),
                 cert: fs.readFileSync("./data/cert.crt"),
             }, tlsSocketListener);
+            theServer.on("error", (err) => {
+                log(`TLS server error: ${(err as Error).message}`);
+            });
         }
         serverRef.current = () => theServer?.close();
         await new Promise<void>(resolve => !theServer?.listening ? theServer!.listen(config.port, resolve) : resolve());
