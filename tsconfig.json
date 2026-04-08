@@ -1,9 +1,9 @@
 {
     "compilerOptions": {
-        "lib": ["es2022"],
+        "lib": ["es2023"],
         "module": "NodeNext",
         "moduleResolution": "nodenext",
-        "target": "es2022",
+        "target": "es2023",
         "outDir": "./dist",
         "rootDir": ".",
         "esModuleInterop": true,
@@ -15,7 +15,9 @@
         "isolatedModules": true,
         "skipLibCheck": true,
         "noImplicitOverride": true,
-        "removeComments": true
+        "removeComments": true,
+        "types": ["jest"]
+        
     },
     "include": ["src/**/*.ts"],
     "exclude": ["node_modules", "src/ui"]
