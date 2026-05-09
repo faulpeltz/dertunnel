@@ -1,5 +1,9 @@
 # DerTunnel Changelog
 
+## 0.7.13
+- Move binaries to SEA and Node 24
+- Upgrade deps
+- 
 ## 0.7.12
 - Upgrade deps
 - 

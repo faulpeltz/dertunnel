@@ -1,7 +1,8 @@
 {
-    "scripts": "dist/dertunnel-server.js",
-    "compress": "GZip",
-    "assets": ["public/*"],
-    "targets": ["node22-win", "node22-linux-x64"],
-    "outputPath": "build"
+  "scripts": "dist/dertunnel-server.js",
+  "assets": ["public/*"],
+  "targets": ["node24-win", "node24-linux-x64"],
+  "public": true,
+  "sea": true,
+  "outputPath": "build"
 }
