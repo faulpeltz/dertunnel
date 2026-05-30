@@ -1,5 +1,9 @@
 # DerTunnel Changelog
 
+## 0.7.14
+- Upgrade deps
+- Regenerate lockfile
+
 ## 0.7.13
 - Move binaries to SEA and Node 24
 - Upgrade deps

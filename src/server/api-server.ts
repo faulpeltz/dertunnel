@@ -37,6 +37,7 @@ export async function setupAppServer(conf: TunnelServiceConfig, clientConfig: Tu
     const app = express();
     app.disable("x-powered-by");
     app.disable("etag");
+    app.set("query parser", "simple");
     app.use(setupBasicAuth(conf));
     app.use(express.json());
     setupApiRoutes(app, conf, clientConfig, dispatcher);
@@ -130,7 +131,7 @@ function setupApiRoutes(app: Express, conf: TunnelServiceConfig, clientConfig: T
             await saveClientConfig(clientConfig);
 
             // remove all open connections because user was deleted
-            closeAllConnectionsForUser(user!);
+            closeAllConnectionsForUser(`${user}`);
             clearAuthCache();
 
             res.send({

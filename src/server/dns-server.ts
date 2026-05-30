@@ -1,4 +1,6 @@
-import { Packet, createServer, DnsAnswer } from "dns2";
+import { Packet, createServer } from "dns2";
+
+type ResourceData = Omit<Packet.Resource, "toBuffer">;
 
 export const dnsTextRecords: Map<string, string> = new Map();
 
@@ -15,7 +17,7 @@ export function startDnsServer(port: number, baseDomain: string, targetHost: str
             if (!canonName.endsWith(suffix) && canonName !== baseDomain) { return; }
 
             if (r.type === Packet.TYPE.A && !canonName.startsWith("_acme-challenge")) {
-                response.answers.push({
+                (response.answers as ResourceData[]).push({
                     name: r.name,
                     type: Packet.TYPE.CNAME,
                     class: Packet.CLASS.IN,
@@ -23,13 +25,13 @@ export function startDnsServer(port: number, baseDomain: string, targetHost: str
                     domain: targetHost
                 });
             } else if (r.type === Packet.TYPE.TXT && dnsTextRecords.has(canonName)) {
-                response.answers.push({
+                (response.answers as ResourceData[]).push({
                     name: r.name,
                     type: Packet.TYPE.TXT,
                     class: Packet.CLASS.IN,
                     ttl: 30,
                     data: dnsTextRecords.get(canonName) ?? ""
-                } as DnsAnswer);
+                });
             }
             send(response);
         }
