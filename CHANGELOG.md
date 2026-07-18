@@ -1,5 +1,8 @@
 # DerTunnel Changelog
 
+## 0.7.15
+- Upgrade deps
+
 ## 0.7.14
 - Upgrade deps
 - Regenerate lockfile

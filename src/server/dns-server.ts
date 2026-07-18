@@ -30,7 +30,7 @@ export function startDnsServer(port: number, baseDomain: string, targetHost: str
                     type: Packet.TYPE.TXT,
                     class: Packet.CLASS.IN,
                     ttl: 30,
-                    data: dnsTextRecords.get(canonName) ?? ""
+                    data: [dnsTextRecords.get(canonName) ?? ""]
                 });
             }
             send(response);
