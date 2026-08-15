@@ -1,5 +1,8 @@
 # DerTunnel Changelog
 
+## 0.7.16
+- Upgrade deps
+
 ## 0.7.15
 - Upgrade deps
 

@@ -1,6 +1,6 @@
 {
   "name": "dertunnel",
-  "version": "0.7.15",
+  "version": "0.7.16",
   "description": "A ngrok-style tunnel client/server",
   "main": "index.js",
   "scripts": {
@@ -32,14 +32,14 @@
     "@types/jest": "30.0.0",
     "@types/node": "22.20.1",
     "@types/prompts": "~2.4.9",
-    "@typescript-eslint/eslint-plugin": "8.64.0",
-    "@typescript-eslint/parser": "8.64.0",
-    "@yao-pkg/pkg": "6.21.0",
+    "@typescript-eslint/eslint-plugin": "8.67.0",
+    "@typescript-eslint/parser": "8.67.0",
+    "@yao-pkg/pkg": "6.22.0",
     "copyfiles": "2.4.1",
-    "esbuild": "0.28.1",
+    "esbuild": "0.28.2",
     "esbuild-register": "3.6.0",
     "eslint": "8.57.1",
-    "eslint-plugin-jest": "29.15.4",
+    "eslint-plugin-jest": "29.16.1",
     "jest": "30.4.2",
     "license-compliance": "3.0.1",
     "typescript": "6.0.3"
@@ -49,7 +49,7 @@
     "chalk": "5.6.2",
     "commander": "14.0.3",
     "conf": "15.1.0",
-    "dns2": "3.0.0",
+    "dns2": "3.1.1",
     "express": "5.2.1",
     "lru-cache": "11.5.2",
     "nanoid": "5.1.16",
@@ -58,7 +58,7 @@
   },
   "overrides": {
     "@istanbuljs/load-nyc-config": {
-      "js-yaml": "4.2.0"
+      "js-yaml": "4.3.1"
     },
     "license-compliance": {
       "joi": "17.13.4"
