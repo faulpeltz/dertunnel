@@ -15,7 +15,7 @@
     "bundle": "npm run licenses && npm run server:bundle && npm run client:bundle && npm run ui:bundle && npm run client:lib",
     "server:bundle": "esbuild --target=es2022 --bundle --minify --platform=node --metafile=./dist/dertunnel-server-meta.json --outfile=./dist/dertunnel-server.js ./src/server/index.ts",
     "client:bundle": "esbuild --target=es2022 --bundle --minify --platform=node --metafile=./dist/dertunnel-client-meta.json --banner:js=\"#!/usr/bin/env node\" --outfile=./dist/dertunnel-client.js ./src/client/cli.ts",
-    "client:lib": "esbuild --target=es2022 --bundle --minify --platform=node --outfile=./packages/dertunnel/index.js ./src/client/client.ts && copyfiles -f ./dist/dertunnel-client.js packages/dertunnel && cd packages/dertunnel && npm pack --pack-destination ../../dist && cd ../..",
+    "client:lib": "esbuild --target=es2022 --bundle --minify --platform=node --outfile=./packages/dertunnel/index.js ./src/client/client.ts && copyfiles -f ./dist/dertunnel-client.js packages/dertunnel && copyfiles -f ./dist/LICENSES_bundled.txt packages/dertunnel && cd packages/dertunnel && npm pack --pack-destination ../../dist && cd ../..",
     "client:package": "pkg --public --no-bytecode -c ./pkg.client.json ./dist/dertunnel-client.js",
     "server:package": "pkg --public --no-bytecode -c ./pkg.server.json ./dist/dertunnel-server.js",
     "package": "npm run bundle && npm run server:package && npm run client:package",

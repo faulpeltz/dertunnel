@@ -1,6 +1,7 @@
 dist/
 build/
 packages/**/*.js
+packages/**/LICENSES_bundled.txt
 node_modules
 data/*
 public/bundle.js*

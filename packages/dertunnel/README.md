@@ -32,3 +32,7 @@ The package also includes the CLI client - to forward local port 4000 to an endp
 
 (c) faulpeltz
 [MIT](https://choosealicense.com/licenses/mit/)
+
+# Bundled Licenses
+
+This project includes third-party libraries. See the [LICENSES_bundled.txt](./LICENSES_bundled.txt) for details.
